@@ -30,5 +30,15 @@ namespace Inf2B {
             return bin_search(arr, target, comp, j+1, i2);
     }
 
+    template<typename T>
+    T find_max(T *arr, int (*comp)(T,T), int N){
+        T max = arr[0];
+        for(int i = 0 ; i < N ; ++i){
+            if(comp(arr[i],max) > 0)
+                max = arr[i];
+        }
+        return max;
+    }
+
 }
 #endif //INFORMATICS_2B_ADS_NOTE1_H
