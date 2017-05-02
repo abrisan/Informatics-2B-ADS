@@ -1,9 +1,7 @@
-cmake_minimum_required(VERSION 3.3)
+cmake_minimum_required(VERSION 3.6)
 project(test_build)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_STANDARD 14)
 
-set(BUILD_1 Tester)
-set(SOURCE_FILES_1 C++/Note2/Tester.cpp)
-
-add_executable(${BUILD_1} ${SOURCE_FILES_1})
+set(SOURCE_FILES C++/Note3/Tester.cpp)
+add_executable(test_build ${SOURCE_FILES})
