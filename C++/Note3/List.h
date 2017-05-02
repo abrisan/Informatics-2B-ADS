@@ -6,6 +6,7 @@
 #define TEST_BUILD_LIST_H
 
 #include <iostream>
+#include "../General.h"
 
 namespace Inf2B{
 

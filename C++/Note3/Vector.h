@@ -90,10 +90,7 @@ namespace Inf2B {
             std::cout << "Empty vector." << std::endl;
             return;
         }
-        for (int i = 0; i < this->length; ++i) {
-            std::cout << this->arr[i] << " ";
-        }
-        std::cout << std::endl;
+        display_array(arr, length);
     }
 
 }

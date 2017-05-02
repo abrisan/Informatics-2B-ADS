@@ -6,6 +6,7 @@
 #define TEST_BUILD_DYNAMICARRAY_H
 
 #include <iostream>
+#include "../General.h"
 
 namespace Inf2B{
 
@@ -65,10 +66,7 @@ namespace Inf2B{
 
     template<typename T>
     void DynamicArray<T>::printArray() {
-        for(int i = 0 ; i < currpos ; ++i){
-            std::cout << arr[i] << " ";
-        }
-        std::cout << std::endl;
+        display_arry(arr, currpos);
     }
 
 }
