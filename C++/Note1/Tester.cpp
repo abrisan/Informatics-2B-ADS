@@ -2,14 +2,12 @@
 #include <cmath>
 #include <chrono>
 #include "Note1.h"
+#include "../General.h"
 
 using namespace std;
 using namespace Inf2B;
 using namespace std::chrono;
 
-int comp(int n1, int n2){
-    return n1-n2;
-}
 
 
 int main(){
@@ -37,11 +35,17 @@ int main(){
     }
 
     high_resolution_clock::time_point t1 = high_resolution_clock::now();
-    int lin_search_result = lin_search(arr, target, &comp, N);
+
+    // execute the linear search
+    int lin_search_result = lin_search(arr, target, &integer_comparator, N);
+
     high_resolution_clock::time_point t2 = high_resolution_clock::now();
 
     high_resolution_clock::time_point t3 = high_resolution_clock::now();
-    int bin_search_result = bin_search(arr, target, &comp, 0, N);
+
+    // execute the binary search
+    int bin_search_result = bin_search(arr, target, &integer_comparator, 0, N);
+
     high_resolution_clock::time_point t4 = high_resolution_clock::now();
 
     auto duration_lin_search = duration_cast<microseconds>(t2-t1).count();
@@ -51,6 +55,8 @@ int main(){
     cout << "BinSearch Yields : " << bin_search_result << " in " << duration_bin_search << " microseconds" << endl;
 
     delete[] arr;
+
+    return 0;
 
 }
 
