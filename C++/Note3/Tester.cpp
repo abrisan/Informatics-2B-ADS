@@ -3,18 +3,17 @@
 //
 #include "Vector.h"
 #include "List.h"
+#include "DynamicArray.h"
 
 using namespace Inf2B;
 
 int main(){
 
-    List<int> lst;
+    DynamicArray<int> arr;
 
-    lst.display_list();
-
-    for(int i = 0 ; i < 10 ; ++i) {
-        lst.insertFirst(i);
-        lst.display_list();
+    for(int i = 0 ; i < 20 ; ++i){
+        arr.insertLast(i);
+        arr.printArray();
     }
 
     return 0;
