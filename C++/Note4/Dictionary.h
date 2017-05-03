@@ -8,75 +8,80 @@
 #include "../Note3/List.h"
 #include <utility>
 #include <iostream>
+#include <vector>
 
 
 namespace Inf2B{
 
     using namespace std;
+    using namespace Inf2B;
 
     template<typename K, typename T>
-    class Dictionary{
-        List<pair<K,T>> *hash_table;
+        class Dictionary{
+        List<KVPair<K,T>> *hash_table;
         int (*hash)(K);
         bool (*comp)(K,K);
         int N;
-    private:
-        bool eq(pair<K,T> p1,pair<K,T> p2);
+            vector<bool> occupied;
+            T default_elem;
     public:
-        Dictionary(bool (*comp)(K,K),int (*hash)(K) , int N);
+        Dictionary(bool (*comp)(K,K),int (*hash)(K) , int N, T def);
         ~Dictionary();
         T find_element(K key);
         void insert_item(K key, T item);
         T remove_item(K key);
-        void display_dictionary(string (*to_string)(pair<K,T>));
+        void display_dictionary(string (*to_string)(KVPair<K,T>));
     };
 
     template<typename K, typename T>
-    Dictionary<K,T>::Dictionary(bool (*comp)(K,K), int (*hash)(K), int N) {
+    Dictionary<K,T>::Dictionary(bool (*comp)(K,K), int (*hash)(K), int N, T def) {
         this->comp = comp;
         this->hash = hash;
         this->N = N;
-        hash_table = new List<pair<K,T>>[N];
+        occupied = vector<bool>(N, false);
+        hash_table = new List<KVPair<K,T>>[N];
+        default_elem = def;
     }
 
     template<typename K, typename T>
     Dictionary<K,T>::~Dictionary() {
-        delete[] hash_table;
-    }
+        // delete[] hash_table;
 
-    template<typename K, typename T>
-    bool Dictionary<K,T>::eq(pair<K, T> p1, pair<K, T> p2) {
-        return comp(p1.first,p2.first);
     }
 
     template<typename K, typename T>
     T Dictionary<K,T>::find_element(K key) {
-        List<pair<K,T>> bucket = hash_table[hash(key)];
-        pair<K,T> search_result = bucket.findElement(&eq, make_pair(key,nullptr));
-        if(search_result==NO_SUCH_KEY)
-            return NO_SUCH_KEY;
-        return search_result.second;
+        if(!occupied[hash(key)])
+            throw "DICTIONARY<K,T> : NO SUCH KEY";
+        KVPair<K,T> search_result = hash_table[hash(key)].findElement(KVPair<K,T>(key, default_elem));
+        return search_result.value();
     }
 
     template<typename K, typename T>
     void Dictionary<K,T>::insert_item(K key, T item) {
-        hash_table[hash(key)].insertFirst(make_pair(key,item));
+        int hashed = hash(key);
+        hash_table[hashed].insertFirst(KVPair<K,T>(key,item));
+        occupied[hashed] = true;
     }
 
     template<typename K, typename T>
     T Dictionary<K,T>::remove_item(K key) {
-        List<pair<K,T>> bucket = hash_table[hash(key)];
-        pair<K,T> remove_result = bucket.removeElement(&eq, make_pair(key,nullptr));
-        if(remove_result == NO_SUCH_KEY)
-            return NO_SUCH_KEY;
-        return remove_result.second;
+        if(!occupied[hash(key)])
+            throw "DICTIONARY<K,T> : NO SUCH KEY";
+        KVPair<K,T> remove_result = hash_table[hash(key)].removeElement(KVPair<K,T>(key, default_elem));
+        if(hash_table[hash(key)].isEmpty()){
+            occupied[hash(key)] = false;
+        }
+        return remove_result.value();
     }
 
 
     template<typename K, typename T>
-    void Dictionary<K,T>::display_dictionary(string (*to_string)(pair<K,T>)) {
+    void Dictionary<K,T>::display_dictionary(string (*to_string)(KVPair<K,T>)) {
         cout << "{";
         for(int i = 0 ; i < N-1 ; ++i){
+            if(!occupied[i])
+                continue;
             cout << i << ":" ;
             hash_table[i].display_list_pred(to_string);
             cout<<"; ";

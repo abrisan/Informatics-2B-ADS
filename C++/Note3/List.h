@@ -36,8 +36,8 @@ namespace Inf2B{
         void insertFirst(T e);
         void insertAfer(struct node<T> *p, T e);
         void remove(struct node<T> *p);
-        T findElement(bool (*eq)(T,T), T elem);
-        T removeElement(bool (*eq)(T,T), T elem);
+        T findElement(T elem);
+        T removeElement(T elem);
         void display_list();
         void display_list_pred(string (*to_string)(T));
 
@@ -55,8 +55,10 @@ namespace Inf2B{
     List<T>::~List(){
         if(first_node == nullptr)
             return;
-        if(first_node->next == nullptr)
+        if(first_node->next == nullptr){
             delete first_node;
+            return;
+        }
         while(first_node->next){
             first_node = first_node->next;
             delete first_node->previous;
@@ -113,40 +115,52 @@ namespace Inf2B{
 
     template<typename T>
     void List<T>::remove(struct node<T> *p) {
-        p->previous->next = p->next;
-        p->next->previous = p->previous;
-        delete p;
+        if(p == first_node){
+            first_node->next->previous = nullptr;
+            struct node<T> *cop = first_node;
+            first_node = first_node->next;
+            delete cop;
+        }else if(p == last_node){
+            last_node->previous->next = nullptr;
+            struct node<T> *cop = last_node;
+            last_node = last_node->previous;
+            delete cop;
+        }else{
+            p->previous->next = p->next;
+            p->next->previous = p->previous;
+            delete p;
+        }
         --length;
     }
 
     template<typename T>
-    T List<T>::findElement(bool (*eq)(T, T), T elem) {
+    T List<T>::findElement(T elem) {
         if(first_node == nullptr)
-            return NO_SUCH_KEY;
+            throw "LIST<T> : NO_SUCH_ELEMENT";
         struct node<T> *cop = first_node;
         while(cop){
-            if(eq(cop->content, elem)){
+            if(cop->content == elem){
                 return cop->content;
             }
             cop=cop->next;
         }
-        return NO_SUCH_KEY;
+        throw "LIST<T> : NO SUCH ELEMENT";
     }
 
     template<typename T>
-    T List<T>::removeElement(bool (*eq)(T, T), T elem) {
+    T List<T>::removeElement(T elem) {
         if(first_node == nullptr)
-            return NO_SUCH_KEY;
+            throw "LIST<T> : NO SUCH ELEMENT";
         struct node<T> *cop = first_node;
         while(cop){
-            if(eq(cop->content, elem)){
+            if(cop->content == elem){
                 T ret = cop->content;
                 remove(cop);
                 return ret;
             }
             cop=cop->next;
         }
-        return NO_SUCH_KEY;
+        throw "LIST<T> : NO SUCH ELEMENT";
     }
 
     template<typename T>
@@ -187,6 +201,12 @@ namespace Inf2B{
         }
 
     }
+
+    template<typename T>
+    bool List<T>::isEmpty() {
+        return first_node == nullptr;
+    }
+
 
 }
 
