@@ -45,7 +45,7 @@ namespace Inf2B{
 
     template<typename K, typename T>
     Dictionary<K,T>::~Dictionary() {
-        // delete[] hash_table;
+        delete[] hash_table;
 
     }
 
