@@ -6,8 +6,14 @@
 #define TEST_BUILD_GENERAL_H
 
 #include <iostream>
+#include <utility>
 
 namespace Inf2B{
+
+#ifndef NO_SUCH_KEY
+#define NO_SUCH_KEY nullptr
+#endif
+
 
     int integer_comparator(int i1, int i2){
         return i1-i2;
@@ -20,6 +26,10 @@ namespace Inf2B{
             std::cout << arr[i] << " ";
         }
         std::cout << std::endl;
+    }
+
+    std::string to_string(std::pair<int,int> pr){
+        return std::to_string(pr.second);
     }
 
 }

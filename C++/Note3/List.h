@@ -10,6 +10,8 @@
 
 namespace Inf2B{
 
+    using namespace std;
+
     template<typename T>
     struct node{
         T content;
@@ -34,7 +36,10 @@ namespace Inf2B{
         void insertFirst(T e);
         void insertAfer(struct node<T> *p, T e);
         void remove(struct node<T> *p);
+        T findElement(bool (*eq)(T,T), T elem);
+        T removeElement(bool (*eq)(T,T), T elem);
         void display_list();
+        void display_list_pred(string (*to_string)(T));
 
     };
 
@@ -115,17 +120,70 @@ namespace Inf2B{
     }
 
     template<typename T>
+    T List<T>::findElement(bool (*eq)(T, T), T elem) {
+        if(first_node == nullptr)
+            return NO_SUCH_KEY;
+        struct node<T> *cop = first_node;
+        while(cop){
+            if(eq(cop->content, elem)){
+                return cop->content;
+            }
+            cop=cop->next;
+        }
+        return NO_SUCH_KEY;
+    }
+
+    template<typename T>
+    T List<T>::removeElement(bool (*eq)(T, T), T elem) {
+        if(first_node == nullptr)
+            return NO_SUCH_KEY;
+        struct node<T> *cop = first_node;
+        while(cop){
+            if(eq(cop->content, elem)){
+                T ret = cop->content;
+                remove(cop);
+                return ret;
+            }
+            cop=cop->next;
+        }
+        return NO_SUCH_KEY;
+    }
+
+    template<typename T>
     void List<T>::display_list() {
         struct node<T> *cop;
         cop = first_node;
         if(cop == nullptr){
             std::cout << "Empty list" << std::endl;
         }else{
+            std::cout<<"[";
             while(cop){
-                std::cout << cop->content << " ";
+                std::cout << cop->content;
+                if(cop->next)
+                    std::cout << ",";
+                std::cout<<" ";
                 cop = cop->next;
             }
-            std::cout << std::endl;
+            std::cout << "]";
+        }
+
+    }
+
+    template<typename T>
+    void List<T>::display_list_pred(string (*to_string)(T)) {
+        struct node<T> *cop;
+        cop = first_node;
+        if(cop == nullptr){
+            std::cout << "Empty list" << std::endl;
+        }else{
+            std::cout<<"[";
+            while(cop){
+                std::cout << to_string(cop->content);
+                if(cop->next)
+                    std::cout << ", ";
+                cop = cop->next;
+            }
+            std::cout << "]";
         }
 
     }
