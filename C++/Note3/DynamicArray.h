@@ -66,7 +66,7 @@ namespace Inf2B{
 
     template<typename T>
     void DynamicArray<T>::printArray() {
-        display_arry(arr, currpos);
+        display_array(arr, currpos);
     }
 
 }

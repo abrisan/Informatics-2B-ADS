@@ -9,13 +9,13 @@ using namespace Inf2B;
 
 int main(){
 
+
     DynamicArray<int> arr;
 
-    for(int i = 0 ; i < 20 ; ++i){
+    for(int i = 0 ; i < 2000 ; ++i){
         arr.insertLast(i);
-        arr.printArray();
+        // arr.printArray();
     }
-
     return 0;
 }
 

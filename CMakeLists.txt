@@ -3,5 +3,5 @@ project(INF2B)
 
 set(CMAKE_CXX_STANDARD 14)
 
-set(SOURCE_FILES C++/Note5/Tester.cpp)
+set(SOURCE_FILES C++/Note7/Tester.cpp)
 add_executable(INF2B ${SOURCE_FILES})
