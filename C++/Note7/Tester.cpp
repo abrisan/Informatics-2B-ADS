@@ -4,17 +4,19 @@
 #include "Sort.h"
 #include "../General.h"
 #include "../Note3/DynamicArray.h"
+#include "Note7.h"
 #include <iostream>
 
 using namespace Inf2B;
 
 int main(){
+    Heap<int> hp(10, &integer_comparator);
 
-    int arr[] = {1,2,3,4,5};
+    for(int i = 0 ; i < 12 ; ++i){
+        hp.insertItem(i);
+    }
 
-    quick_sort(arr,0,4,&integer_comparator);
-
-    display_array(arr, 5);
+    hp.displayHeap();
 
     return 0;
 

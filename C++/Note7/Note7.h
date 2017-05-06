@@ -42,21 +42,29 @@ namespace Inf2B{
     }
 
     template<typename T>
-    void heapify(T *arr, int v,int (*comp)(T,T)){
+    void heapify(T *arr, int N, int v,int (*comp)(T,T)){
         int s;
-        if(comp(arr[2*v+1],arr[v]) > 0){
-            s = 2*v+1;
+        if(2*v+2 < N){
+            if(comp(arr[2*v+1],arr[v]) > 0){
+                s = 2*v+1;
+            }else{
+                s = v;
+            }
+            if(comp(arr[2*v+2],arr[s]) > 0){
+                s = 2*v+2;
+            }
+        }else if(2*v+1 < N){
+            if(comp(arr[2*v+1],arr[v]) > 0){
+                s = 2*v+1;
+            }
         }else{
-            s = v;
-        }
-        if(comp(arr[2*v+2],arr[s]) > 0){
-            s = 2*v+2;
+            return;
         }
         if(comp(arr[s],arr[v])!=0){
             T cop = arr[s];
             arr[s] = arr[v];
             arr[v] = cop;
-            heapify(arr, s, comp);
+            heapify(arr, N, s, comp);
         }
     }
 
@@ -64,7 +72,7 @@ namespace Inf2B{
     template<typename T>
     void build_heap(T *arr, int N, int (*comp)(T,T)){
         for(int v = (int) floor((N-2)/2) ; v >= 0 ; --v){
-            heapify(arr, v, comp);
+            heapify(arr, N, comp);
         }
     }
 
@@ -86,7 +94,16 @@ namespace Inf2B{
             delete[] arr;
             arr = new_arr;
         }
-        //
+        int j = insert_at - 1;
+        while(j > 0){
+            int cop = j;
+            j = (j-1)/2;
+            if(arr[cop] > arr[j]){
+                T cop1 = arr[cop];
+                arr[cop] = arr[j];
+                arr[j] = cop1;
+            }
+        }
     }
 
     template<typename T>
@@ -99,7 +116,7 @@ namespace Inf2B{
         T max = arr[0];
         arr[0] = arr[insert_at-1];
         --insert_at;
-        heapify(arr, 0, comp);
+        heapify(arr, insert_at, 0, comp);
     }
 
     template<typename T>
