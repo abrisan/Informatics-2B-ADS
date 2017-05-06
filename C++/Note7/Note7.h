@@ -83,7 +83,6 @@ namespace Inf2B{
             arr[insert_at] = t;
             ++insert_at;
         }else{
-            cout << "Resize" << endl;
             capacity = capacity * 2 + 1;
             T *new_arr = new T[capacity];
             for(int i = 0 ; i < insert_at ; ++i){
