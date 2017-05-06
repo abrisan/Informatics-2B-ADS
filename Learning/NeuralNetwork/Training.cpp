@@ -10,8 +10,16 @@ namespace MachineLearning{
 
     using namespace std;
 
-    double get_delta(SLFFNeuralNetwork *network, pair<vector<double>,double> *training_data, int td_size){
-        
+    double get_delta(SLFFNeuralNetwork *network, const pair<vector<double>,double> *training_data, int td_size){
+
+        vector<double> deltas(training_data->first.size()+1);
+
+        for(int i = 0 ; i < td_size ; ++i){
+            pair<vector<double>,double> *elem = &training_data[i];
+            for(int j = 1 ; j < deltas.size() ; ++j){
+
+            }
+        }
     }
 
     void gradient_descent_training(SLFFNeuralNetwork *network, double learn_rate, const pair<vector<double>,double> *training_data,

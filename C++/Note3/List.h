@@ -180,7 +180,6 @@ namespace Inf2B{
             }
             std::cout << "]";
         }
-
     }
 
     template<typename T>
